@@ -9,7 +9,7 @@ from sqlmodel import create_engine
 DEFAULT_COOKIES_PATH = "~/Library/Application Support/Microsoft/Teams/Cookies"
 
 
-def tickle_token(cookies_path: Optional[str] = DEFAULT_COOKIES_PATH, token_name: str = "authtoken"):
+def tickle_token(cookies_path: Optional[str] = DEFAULT_COOKIES_PATH, token_name: str = "SSOAUTHCOOKIE"):
     """Teams Token Expiration Checker CLI tool"""
 
     if cookies_path.startswith("~"):

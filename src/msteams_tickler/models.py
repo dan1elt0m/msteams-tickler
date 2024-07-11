@@ -33,3 +33,7 @@ class Cookies(SQLModel, table=True):
     @property
     def expires_datetime(self) -> Optional[datetime]:
         return convert_utc_to_datetime(self.expires_utc) if self.expires_utc else None
+
+    @property
+    def creation_datetime(self) -> Optional[datetime]:
+        return convert_utc_to_datetime(self.creation_utc) if self.expires_utc else None

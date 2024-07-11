@@ -1,8 +1,11 @@
+import logging
 from datetime import datetime
 
 from msteams_tickler.models import Cookies
 from sqlalchemy import Engine
 from sqlmodel import Session, select
+
+logger = logging.getLogger(__name__)
 
 
 def select_token(engine: Engine, token_name: str) -> Cookies:
@@ -17,4 +20,5 @@ def select_token(engine: Engine, token_name: str) -> Cookies:
 
 def is_expired(token: Cookies) -> bool:
     """Checks whether token is expired"""
+    logger.info(f"token expires at: {token.expires_datetime}")
     return token.expires_datetime < datetime.now()

@@ -2,6 +2,9 @@
 
 MSTeams-Tickler is a command-line interface (CLI) tool that checks the expiration of Microsoft Teams tokens on macOS.
 
+Currently only supports MS Teams classic (old version) on MacOs.
+
+
 ## Installation
 
 To install MSTeams-Tickler, you can use pip:
