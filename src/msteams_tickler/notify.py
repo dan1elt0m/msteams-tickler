@@ -1,24 +1,10 @@
 import subprocess
-import time
-from pathlib import Path
-
-from mac_notifications import client
 
 
-def open_teams():
-    """Opens MS Teams"""
-    subprocess.Popen(["open", "-a", "Microsoft Teams"])
+def notify(message: str, title: str = "", app_name: str = "", sound_name: str = ""):
+    title_text = f'with title "{title}"' if title else ""
+    subtitle_text = f'subtitle "{app_name}"' if app_name else ""
+    soundname_text = f'sound name "{sound_name}"' if sound_name else ""
 
-
-def notify(wait_time: int = 10):
-    """Sends a notification and waits 10 second for user to click on the open teams button"""
-    icon = Path(__file__).parent / "img" / "expired.png"
-    client.create_notification(
-        title="Teams token expired!",
-        subtitle="Token expired",
-        icon=icon,
-        action_callback=open_teams,
-        action_button_str="Open Teams",
-    )
-    time.sleep(wait_time)
-    client.stop_listening_for_callbacks()
+    notification_text = f'display notification "{message}" {title_text} {subtitle_text} {soundname_text}'
+    subprocess.run(["osascript", "-e", notification_text], check=False)

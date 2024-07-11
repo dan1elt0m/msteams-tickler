@@ -1,5 +1,4 @@
 import os
-import platform
 from typing import Optional
 
 import typer
@@ -10,15 +9,8 @@ from sqlmodel import create_engine
 DEFAULT_COOKIES_PATH = "~/Library/Application Support/Microsoft/Teams/Cookies"
 
 
-def check_os():
-    """Checks if the OS is macOS, raises an error if not."""
-    if platform.system() != "Darwin":
-        raise NotImplementedError("This tool only supports macOS")
-
-
 def tickle_token(cookies_path: Optional[str] = DEFAULT_COOKIES_PATH, token_name: str = "authtoken"):
     """Teams Token Expiration Checker CLI tool"""
-    check_os()
 
     if cookies_path.startswith("~"):
         cookies_path = os.path.expanduser(cookies_path)
@@ -29,7 +21,7 @@ def tickle_token(cookies_path: Optional[str] = DEFAULT_COOKIES_PATH, token_name:
     auth_token = select_token(engine, token_name)
 
     if is_expired(auth_token):
-        notify()
+        notify(message="Time to login again!", title="Token expired!", app_name="Microsoft Teams", sound_name="beep")
 
 
 def main():
