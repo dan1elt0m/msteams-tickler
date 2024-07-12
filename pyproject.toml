@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "msteams-tickler"
-version = "0.1.3"
+version = "1.0.0"
 description = "CLI tool for macOS to check MS Teams token expiration and send notifications"
 authors = ["Daniel Tom <daniel.tom@xebia.com>"]
 readme = "README.md"
