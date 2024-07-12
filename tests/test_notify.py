@@ -16,4 +16,4 @@ def test_notify(mock_run):
     ]
 
     # Assert that the function called subprocess.run with the expected command
-    mock_run.assert_called_once_with(expected_command)
+    mock_run.assert_called_once_with(expected_command, check=False)

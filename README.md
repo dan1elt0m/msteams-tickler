@@ -2,8 +2,6 @@
 
 MSTeams-Tickler is a command-line interface (CLI) tool that checks the expiration of Microsoft Teams tokens on macOS.
 
-Currently only supports MS Teams classic (old version) on MacOs.
-
 
 ## Installation
 
@@ -15,17 +13,26 @@ pip install msteams-tickler
 
 ## Usage
 Usage
-To use MSTeams-Tickler, you can run the main script with Python:
+
+To use MSTeams-Tickler, run:
 
 ```bash
-msteams-tickler
+mstc check
 ```
-By default, MSTeams-Tickler checks the token named "authtoken" in the Teams cookies sqlite file at "~/Library/Application Support/Microsoft/Teams/Cookies". 
-If you want to check a different token or use a different cookies file, you can provide them as options:
+
+or for MSTeams classic 
+```bash
+mstc classic check
+```
+
+MSTeams uses a binarycookies file to store the tokens.  MSTeams-Tickler looks for the binarycookies file at the default location.
+If you have the binarycookies file at a different location, you can specify the path to the binarycookies file using the `--cookies-path` option:
 
 ```bash
-msteams-tickler --cookies-path /path/to/cookies --token-name other_tokenh
+mstc check --cookies-path /path/to/cookies.binarycookies --token-name other_token
 ```
+! MSTeams classic looks for a sqlite file at the default cookies location.  If you have the sqlite file at a different location,
+you can specify the path to the sqlite file using the `--cookies-path` option:
 
 ## Contributing
 If you want to contribute to MSTeams-Tickler, feel free to open an issue or submit a pull request.  

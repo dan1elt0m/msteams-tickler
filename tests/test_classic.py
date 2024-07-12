@@ -1,9 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import pytest
-from msteams_tickler.models import Cookies
-from msteams_tickler.token import is_expired, select_token
+from msteams_tickler.classic.models import Cookies
+from msteams_tickler.classic.token import check, is_expired, select_token
 from polyfactory.factories.pydantic_factory import ModelFactory
 from sqlalchemy import create_engine
 from sqlmodel import Session, SQLModel
@@ -14,12 +15,32 @@ class CookiesFactory(ModelFactory):
     name = "authtoken"
 
 
+@patch("msteams_tickler.classic.token.notify")
+@patch("msteams_tickler.classic.token.select_token")
+@patch("sqlmodel.create_engine")
+def test_check(mock_create_engine, mock_select_token, mock_notify):
+    expires_utc = int((datetime.now(UTC) - datetime(1601, 1, 1, tzinfo=UTC)).total_seconds() * 1_000_000)
+    mock_engine = MagicMock()
+    mock_create_engine.return_value = mock_engine
+
+    mock_token = Cookies(name="authtoken", expires_utc=expires_utc)
+    mock_select_token.return_value = mock_token
+
+    check()
+
+    mock_notify.assert_called_once()
+
+
 def test_is_expired():
-    expires_utc_future = int((datetime.now() + timedelta(hours=1) - datetime(1601, 1, 1)).total_seconds() * 1_000_000)
+    expires_utc_future = int(
+        (datetime.now(UTC) + timedelta(hours=1) - datetime(1601, 1, 1, tzinfo=UTC)).total_seconds() * 1_000_000
+    )
     token = Cookies(name="authtoken", expires_utc=expires_utc_future)
     assert not is_expired(token)
 
-    expires_utc_past = int((datetime.now() - timedelta(hours=1) - datetime(1601, 1, 1)).total_seconds() * 1_000_000)
+    expires_utc_past = int(
+        (datetime.now(UTC) - timedelta(hours=1) - datetime(1601, 1, 1, tzinfo=UTC)).total_seconds() * 1_000_000
+    )
     token = Cookies(name="authtoken", expires_utc=expires_utc_past)
     assert is_expired(token)
 
