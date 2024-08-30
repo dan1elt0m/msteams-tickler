@@ -2,8 +2,9 @@ from datetime import datetime
 from unittest.mock import patch
 
 from binary_cookies_parser.models import Cookie
-from msteams_tickler.main import check
 from polyfactory.factories.pydantic_factory import ModelFactory
+
+from msteams_tickler.main import check
 
 
 class CookieFactory(ModelFactory):
