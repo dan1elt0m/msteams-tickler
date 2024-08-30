@@ -3,11 +3,12 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-from msteams_tickler.classic.models import Cookies
-from msteams_tickler.classic.token import check, is_expired, select_token
 from polyfactory.factories.pydantic_factory import ModelFactory
 from sqlalchemy import create_engine
 from sqlmodel import Session, SQLModel
+
+from msteams_tickler.classic.models import Cookies
+from msteams_tickler.classic.token import check, is_expired, select_token
 
 
 class CookiesFactory(ModelFactory):
